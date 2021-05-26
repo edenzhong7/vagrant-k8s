@@ -79,7 +79,11 @@
         - kubectl
 
   - name: pull coredns
-    shell: docker pull coredns/coredns:1.8.0; docker tag coredns/coredns:1.8.0 registry.aliyuncs.com/google_containers/coredns/coredns:v1.8.0
+    shell: |
+      ctr i pull k8s.gcr.io/coredns/coredns:v1.8.0
+      ctr i export coredns.tar k8s.gcr.io/coredns/coredns:v1.8.0
+      docker load < coredns.tar
+      docker tag k8s.gcr.io/coredns/coredns:v1.8.0 registry.aliyuncs.com/google_containers/coredns/coredns:v1.8.0
 
   - name: Copy the join command to server location
     copy: src=/tmp/join-command dest=/tmp/join-command.sh mode=0777

@@ -1,17 +1,17 @@
-IMAGE_NAME = "bento/ubuntu-20.04"
+IMAGE_NAME = "generic/ubuntu2004"
 N = 2
 
 Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
     config.proxy.http     = "http://192.168.50.1:9010"
-    config.proxy.https    = "http://192.168.50.1:9010"
+    config.proxy.https     = "http://192.168.50.1:9010"
     config.proxy.no_proxy = "localhost,127.0.0.1"
 
-    config.vm.provider "virtualbox" do |v|
-        v.memory = 2048
-        v.cpus = 2
+    config.vm.provider "libvirt" do |v|
+        v.memory = 8192
+        v.cpus = 8
     end
-      
+
     config.vm.define "k8s-master" do |master|
         master.vm.box = IMAGE_NAME
         master.vm.network "private_network", ip: "192.168.50.10"

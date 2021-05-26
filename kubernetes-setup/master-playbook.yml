@@ -78,7 +78,11 @@
         - kubectl
 
   - name: pull coredns
-    shell: docker pull coredns/coredns:1.8.0; docker tag coredns/coredns:1.8.0 registry.aliyuncs.com/google_containers/coredns/coredns:v1.8.0
+    shell: |
+      ctr i pull k8s.gcr.io/coredns/coredns:v1.8.0
+      ctr i export coredns.tar k8s.gcr.io/coredns/coredns:v1.8.0
+      docker load < coredns.tar
+      docker tag k8s.gcr.io/coredns/coredns:v1.8.0 registry.aliyuncs.com/google_containers/coredns/coredns:v1.8.0
 
   - name: Initialize the Kubernetes cluster using kubeadm
     command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16 --image-repository registry.aliyuncs.com/google_containers
