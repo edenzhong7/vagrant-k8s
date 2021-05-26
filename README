@@ -1,0 +1,13 @@
+Vagrant K8S
+
+# Usage
+
+### install plugins
+
+```
+vagrant plugin install vagrant-proxyconf
+vagrant plugin install vagrant-libvirt
+```
+
+### run
+vagrant up --provider=libvirt
